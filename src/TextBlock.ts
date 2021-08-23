@@ -5,6 +5,7 @@ export interface ITextBlockOptions {
     content: string;
     contentType: string;
     constantlyVisible: boolean;
+    isLabelForComponent: boolean;
 }
 
 @lazyComponent
@@ -14,6 +15,7 @@ export class TextBlock extends Component {
         content: ComponentOptions.buildStringOption({ defaultValue: 'label' }),
         contentType: ComponentOptions.buildStringOption({ defaultValue: 'text' }),
         constantlyVisible: ComponentOptions.buildBooleanOption({ defaultValue: false }),
+        isLabelForComponent: ComponentOptions.buildBooleanOption({ defaultValue: false }),
     };
     static contentTypeOptions = [
         'header',
@@ -39,8 +41,16 @@ export class TextBlock extends Component {
     }
 
     private handleQuerySuccess(data: IQuerySuccessEventArgs) {
+        const { isLabelForComponent, constantlyVisible } = this.options;
+        const { results, totalCountFiltered } = data.results;
+        const { numberOfResults } = data.queryBuilder;
+        const hasData = results.length != 0;
+        const filteredMoreThanTotal = totalCountFiltered > numberOfResults;
+
         this.reset();
-        if (this.options.constantlyVisible || data.results.results.length != 0) {
+        if ((isLabelForComponent && hasData && filteredMoreThanTotal) ||
+            (!isLabelForComponent && hasData) ||
+            constantlyVisible) {
             this.build();
         }
     }
