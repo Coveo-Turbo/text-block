@@ -55,7 +55,6 @@ The following options can be configured:
 | `content` | No | string | `label` | Content of the text block. |
 | `contentType` | No | string | `text` | Specifies the content type of the text block. Valid values are `header` or `text`. |
 | `constantlyVisible` | No | boolean | `false` | Specifies whether the text block should be constantly visible in the UI, regardless of the result obtained from the query. Useful if you need a page header title. |
-| `isLabelForComponent` | No | boolean | `false` | Specifies whether the text block should be displayed as a label for a component. However, this ties it to the result count. Useful if you are using this component as a label for the pager component. |
 
 ## Extending
 
