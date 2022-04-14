@@ -61,7 +61,27 @@ The following options can be configured:
 
 ## About the `text-block` CSS class
 
-No rules are directly applied to the `.text-block` class. You may style it as you need it.
+No rules are directly applied to the `.text-block` class. You may style it as you need it. However, here are the default styles:
+
+```
+.CoveoTextBlock{
+    background-color: #fff;
+}
+.CoveoTextBlock .text-block.header {
+    font-weight: bold;
+}
+.CoveoTextBlock .text-block.header,
+.CoveoTextBlock .text-block.text {
+    white-space: normal;
+}
+@media screen and (max-device-width: 768px) {
+    .text-block.header,
+    .text-block.text {
+        padding: 5px 15px;
+        margin: 0px;
+    }
+}
+```
 
 ## Extending
 
