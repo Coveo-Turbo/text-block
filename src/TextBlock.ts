@@ -2,6 +2,7 @@ import { $$, Component, IComponentBindings, ComponentOptions, IQuerySuccessEvent
 import { lazyComponent } from '@coveops/turbo-core';
 
 export interface ITextBlockOptions {
+    as: string;
     content: string;
     contentType: string;
     constantlyVisible: boolean;
@@ -11,14 +12,16 @@ export interface ITextBlockOptions {
 export class TextBlock extends Component {
     static ID = 'TextBlock';
     static options: ITextBlockOptions = {
+        as: ComponentOptions.buildStringOption({ defaultValue: 'p' }),
         content: ComponentOptions.buildStringOption({ defaultValue: 'label' }),
-        contentType: ComponentOptions.buildStringOption({ defaultValue: 'text' }),
+        contentType: ComponentOptions.buildStringOption({ defaultValue: '' }),
         constantlyVisible: ComponentOptions.buildBooleanOption({ defaultValue: false }),
     };
     static contentTypeOptions = [
         'header',
         'text',
     ];
+    static hasResults: boolean = true;
 
     constructor(public element: HTMLElement, public options: ITextBlockOptions, public bindings: IComponentBindings) {
         super(element, TextBlock.ID, bindings);
@@ -32,17 +35,17 @@ export class TextBlock extends Component {
 
     private handleQueryError() {
         this.reset();
-        if (this.options.constantlyVisible) { this.build() }
+        TextBlock.hasResults = false;
     }
 
     private handleNoResults() {
         this.reset();
-        if (this.options.constantlyVisible) { this.build() }
+        TextBlock.hasResults = false;
     }
 
     private handleQuerySuccess(data: IQuerySuccessEventArgs) {
         this.reset();
-        this.build();
+        if (this.options.constantlyVisible || TextBlock.hasResults) { this.build(); }
     }
 
     private reset() {
@@ -54,9 +57,9 @@ export class TextBlock extends Component {
     }
 
     protected renderTextBlock() {
-        // fall back to default `text` class if no valid value.
-        const classes = TextBlock.contentTypeOptions.indexOf(this.options.contentType) > -1 ? `text-block ${this.options.contentType}` : 'text-block text';
-        const textBlockElement = $$('p', { className: classes, ariaHidden: 'false' }, this.options.content).el;
+        const { as, content, contentType } = this.options;
+        const classes = `text-block ${TextBlock.contentTypeOptions.indexOf(contentType) > -1 ? ` ${contentType}` : ''}`;
+        const textBlockElement = $$(as, { className: classes, ariaHidden: 'false' }, content).el;
         $$(this.element).append(textBlockElement);
     }
 }

@@ -52,9 +52,14 @@ The following options can be configured:
 
 | Option | Required | Type | Default | Notes |
 | --- | --- | --- | --- | --- |
+| `as` | No | string | `p` | Type of element, i.e. `h1`, `p`, `span`, etc. |
 | `content` | No | string | `label` | Content of the text block. |
-| `contentType` | No | string | `text` | Specifies the content type of the text block. Valid values are `header` or `text`. |
+| `contentType` | No | string |  | Specifies the content type of the text block. Preset values are `header` or `text`. You can pass your own `contentType` and it will be treated as a class. By default, you have the `text-block` class, which can be overriden. |
 | `constantlyVisible` | No | boolean | `false` | Specifies whether the text block should be constantly visible in the UI, regardless of the result obtained from the query. Useful if you need a page header title. |
+
+## About the `text-block` CSS class
+
+No rules are directly applied to the `.text-block` class. You may style it as you need it.
 
 ## Extending
 
