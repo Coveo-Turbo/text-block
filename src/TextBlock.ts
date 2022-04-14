@@ -6,6 +6,8 @@ export interface ITextBlockOptions {
     content: string;
     contentType: string;
     constantlyVisible: boolean;
+    ariaHidden: boolean;
+    overrideAriaHidden: boolean;
 }
 
 @lazyComponent
@@ -16,11 +18,9 @@ export class TextBlock extends Component {
         content: ComponentOptions.buildStringOption({ defaultValue: 'label' }),
         contentType: ComponentOptions.buildStringOption({ defaultValue: '' }),
         constantlyVisible: ComponentOptions.buildBooleanOption({ defaultValue: false }),
+        ariaHidden: ComponentOptions.buildBooleanOption({ defaultValue: false }),
+        overrideAriaHidden: ComponentOptions.buildBooleanOption({ defaultValue: false }),
     };
-    static contentTypeOptions = [
-        'header',
-        'text',
-    ];
     static hasResults: boolean = true;
 
     constructor(public element: HTMLElement, public options: ITextBlockOptions, public bindings: IComponentBindings) {
@@ -57,9 +57,15 @@ export class TextBlock extends Component {
     }
 
     protected renderTextBlock() {
-        const { as, content, contentType } = this.options;
-        const classes = `text-block ${TextBlock.contentTypeOptions.indexOf(contentType) > -1 ? ` ${contentType}` : ''}`;
-        const textBlockElement = $$(as, { className: classes, ariaHidden: 'false' }, content).el;
+        const { ariaHidden, as, content, contentType, overrideAriaHidden } = this.options;
+        const classes = `text-block ${contentType}`;
+        let attributes;
+        if (!overrideAriaHidden) {
+            attributes = { className: classes, ariaHidden: ariaHidden.toString() }
+        } else {
+            attributes = { className: classes }
+        }
+        const textBlockElement = $$(as, attributes, content).el;
         $$(this.element).append(textBlockElement);
     }
 }

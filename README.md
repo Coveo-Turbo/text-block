@@ -53,6 +53,8 @@ The following options can be configured:
 | Option | Required | Type | Default | Notes |
 | --- | --- | --- | --- | --- |
 | `as` | No | string | `p` | Type of element, i.e. `h1`, `p`, `span`, etc. |
+| `ariaHidden` | No | boolean | `true` | This sets the aria-hidden attribute to `true` or `false`. |
+| `overrideAriaHidden` | No | boolean | `false` | This removes the aria-hidden attribute and allows for replacing it with another system, such as the `.sr-only` class provided in the Bootstrap framework.  |
 | `content` | No | string | `label` | Content of the text block. |
 | `contentType` | No | string |  | Specifies the content type of the text block. Preset values are `header` or `text`. You can pass your own `contentType` and it will be treated as a class. By default, you have the `text-block` class, which can be overriden. |
 | `constantlyVisible` | No | boolean | `false` | Specifies whether the text block should be constantly visible in the UI, regardless of the result obtained from the query. Useful if you need a page header title. |
