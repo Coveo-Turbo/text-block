@@ -45,6 +45,7 @@ export class TextBlock extends Component {
 
     private handleQuerySuccess(data: IQuerySuccessEventArgs) {
         this.reset();
+        if (data.results.totalCount > 0) { TextBlock.hasResults = true; }
         if (this.options.constantlyVisible || TextBlock.hasResults) { this.build(); }
     }
 
